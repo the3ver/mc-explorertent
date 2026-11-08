@@ -43,5 +43,5 @@ jobs:
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: mc-3ver-build
+          name: explorertent-build
           path: build/libs/

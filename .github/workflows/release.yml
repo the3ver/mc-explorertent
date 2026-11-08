@@ -62,15 +62,17 @@ jobs:
           draft: false
           prerelease: false
 
+      # Projekt-IDs als Repository-Variablen MODRINTH_ID und CURSEFORGE_ID; ohne sie entsteht nur das GitHub-Release
       - name: Publish to Mod Platforms (Modrinth & CurseForge)
+        if: ${{ vars.MODRINTH_ID != '' }}
         uses: Kira-NT/mc-publish@v3.3.2
         with:
-          modrinth-id: '6Gr0fyD8'
+          modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          curseforge-id: '1673253'
+          curseforge-id: ${{ vars.CURSEFORGE_ID }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           version: ${{ steps.get_version.outputs.version }}
-          name: 'mc-3ver-${{ steps.get_version.outputs.version }}.jar'
+          name: 'explorertent-${{ steps.get_version.outputs.version }}.jar'
           version-type: release
           changelog-file: CHANGELOG_EN.md
           files: |
@@ -79,8 +81,6 @@ jobs:
           loaders: fabric
           game-versions: ${{ steps.get_version.outputs.mc }}
           java: Java 25
-          # TerraBlender heißt auf CurseForge als Fabric-Projekt terrablender-fabric
           dependencies: |
             fabric-api(required)
-            terrablender(required){curseforge:terrablender-fabric}
 

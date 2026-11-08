@@ -1,5 +1,5 @@
 name: 🐛 Bug Report
-description: Melde einen Fehler oder Absturz in WorldExplorerMod
+description: Melde einen Fehler oder Absturz in Explorer Tent
 title: "[Bug]: "
 labels: ["bug"]
 body:
@@ -11,7 +11,7 @@ body:
     id: version_mod
     attributes:
       label: Mod-Version
-      description: Welche Version von WorldExplorerMod verwendest du?
+      description: Welche Version von Explorer Tent verwendest du?
       placeholder: z. B. 0.2.0
     validations:
       required: true

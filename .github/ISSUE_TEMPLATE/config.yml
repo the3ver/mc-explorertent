@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: 💬 GitHub Discussions & Community
-    url: https://github.com/the3ver/mc-3ver/discussions
+    url: https://github.com/the3ver/mc-explorertent/discussions
     about: Stelle Fragen, teile Ideen oder tausche dich mit anderen Spielern aus.
   - name: 🌐 Website & Dokumentation
-    url: https://the3ver.github.io/mc-3ver/
+    url: https://github.com/the3ver/mc-explorertent#readme
     about: Lies die offizielle Installationsanleitung, Changelogs und Features nach.

@@ -1,12 +1,12 @@
 name: ✨ Feature Request
-description: Schlage eine neue Idee oder Verbesserung für WorldExplorerMod vor
+description: Schlage eine neue Idee oder Verbesserung für Explorer Tent vor
 title: "[Feature]: "
 labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        Vielen Dank für dein Feedback! Teile uns deine Ideen für neue Features, Items oder Mechaniken in WorldExplorerMod mit.
+        Vielen Dank für dein Feedback! Teile uns deine Ideen für neue Features, Items oder Mechaniken in Explorer Tent mit.
   - type: textarea
     id: feature_description
     attributes:

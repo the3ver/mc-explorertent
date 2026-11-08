@@ -1,4 +1,4 @@
-# Projektregeln für mc-3ver, geprüft von scripts/check.sh und in CI (Code Scanning).
+# Projektregeln für mc-explorertent, geprüft von scripts/check.sh und in CI (Code Scanning).
 # Begründete Ausnahme: "// nosemgrep: <regel-id> <Grund>" in die Zeile davor.
 rules:
   - id: explorertent-no-console-output
