@@ -6,6 +6,10 @@ plugins {
 	id 'info.solidsoft.pitest' version '1.19.0'
 }
 
+base {
+	archivesName = project.archives_base_name
+}
+
 loom {
 	splitEnvironmentSourceSets()
 }
