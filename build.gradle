@@ -1,8 +1,8 @@
 plugins {
 	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
-	id 'com.diffplug.spotless' version '8.10.4'
-	id 'net.ltgt.errorprone' version '5.1.1'
+	id 'com.diffplug.spotless' version '8.11.0'
+	id 'net.ltgt.errorprone' version '5.2.0'
 	id 'info.solidsoft.pitest' version '1.19.0'
 }
 
@@ -52,7 +52,7 @@ dependencies {
 	// Startet Tests im Fabric-Loader, damit Fabric-API-Mixins (Registry-Aliase) greifen
 	testImplementation "net.fabricmc:fabric-loader-junit:${project.loader_version}"
 
-	errorprone "com.google.errorprone:error_prone_core:2.51.0"
+	errorprone "com.google.errorprone:error_prone_core:2.52.0"
 }
 
 spotless {
