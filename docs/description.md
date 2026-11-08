@@ -7,7 +7,7 @@ A portable tent for long trips. Pitch it wherever night falls, sleep in it, and 
 - **Pitch anywhere:** right-click a 3×4 patch of flat, solid ground with the tent. The tent sets itself up with canvas, poles, a pennant, guy lines, a sleeping bag, a chest and a furnace.
 - **Sleep without losing home:** the sleeping bag skips the night like a bed, but your spawn point stays where it was.
 - **Chest and furnace:** the tent chest stores your finds, and the furnace cooks like a normal furnace and lights up the tent while it burns.
-- **Pack it up:** sneak and right-click the canvas or the chest with an empty hand. The tent goes back into your inventory, and the chest contents travel with it.
+- **Pack it up:** sneak and right-click the canvas or the chest with an empty hand. The tent goes back into your inventory, and the chest contents travel with it. Whatever is left in the furnace drops on the ground.
 - **16 colors:** craft the tent with any wool color, or dye a finished tent in the crafting grid.
 
 ## Recipe

@@ -1,6 +1,6 @@
 # Explorer Tent
 
-Ein tragbares Entdeckerzelt für Minecraft 26.3 (Fabric). Aufstellen, darin schlafen, ohne den Heimat-Spawnpunkt zu verschieben, und wieder einpacken. Truhe und Ofen im Zelt nehmen ihren Inhalt beim Einpacken mit.
+Ein tragbares Entdeckerzelt für Minecraft 26.3 (Fabric). Aufstellen, darin schlafen, ohne den Heimat-Spawnpunkt zu verschieben, und wieder einpacken. Die Truhe im Zelt nimmt ihren Inhalt beim Einpacken mit, der Inhalt des Ofens fällt auf den Boden.
 
 ![Entdeckerzelt](docs/assets/explorer_tent.png)
 
