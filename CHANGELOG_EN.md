@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.1] - 2026-11-08
+
+### Fixed
+- The mod file is named `explorertent-<version>.jar` instead of `mc-explorertent-<version>.jar`.
+- The description now says that the furnace drops its contents when the tent is packed.
+
 ## [0.1.0] - 2026-11-08
 
 ### Added

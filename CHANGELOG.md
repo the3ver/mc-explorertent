@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.1] - 2026-11-08
+
+### Behoben
+- Die Mod-Datei heißt `explorertent-<version>.jar` statt `mc-explorertent-<version>.jar`.
+- Die Beschreibung sagt richtig, dass der Ofeninhalt beim Einpacken auf den Boden fällt.
+
 ## [0.1.0] - 2026-11-08
 
 ### Neu
