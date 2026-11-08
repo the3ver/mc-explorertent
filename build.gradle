@@ -1,0 +1,143 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+	id 'maven-publish'
+	id 'com.diffplug.spotless' version '8.10.4'
+	id 'net.ltgt.errorprone' version '5.1.1'
+	id 'info.solidsoft.pitest' version '1.19.0'
+}
+
+loom {
+	splitEnvironmentSourceSets()
+}
+
+// Generierte Daten (Loot-Tabellen usw.) entstehen per ./gradlew runDatagen in src/main/generated und werden
+// committet. Muss zwischen splitEnvironmentSourceSets und loom.mods stehen, weil es die Mod-Einstellungen anlegt. Quellcode der Provider liegt in src/datagen/java und landet nicht im Mod-JAR.
+fabricApi {
+	configureDataGeneration {
+		createSourceSet = true
+		modId = "explorertent"
+		outputDirectory = file("src/main/generated")
+	}
+}
+
+loom {
+	mods {
+		"explorertent" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+
+	runs {
+		client {
+			// Fester Name = feste Offline-UUID; sonst gehört der Einzelspieler-Spielstand seit 26.3 bei jedem Start einem neuen Spieler
+			programArgs "--username", "Frank"
+		}
+	}
+}
+
+dependencies {
+	// To change the versions see the gradle.properties file
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+
+	// Unit Testing
+	testImplementation "org.junit.jupiter:junit-jupiter:6.1.3"
+	testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+	testImplementation "com.tngtech.archunit:archunit-junit5:1.5.1"
+
+	errorprone "com.google.errorprone:error_prone_core:2.51.0"
+}
+
+spotless {
+	java {
+		target 'src/*/java/**/*.java'
+		palantirJavaFormat()
+		removeUnusedImports()
+		endWithNewline()
+	}
+}
+
+// Konsole des Dev-Servers per Pipe bedienbar, z. B. für /locate in Agenten-Tests
+tasks.named('runServer') {
+	standardInput = System.in
+}
+
+// Mutation Testing nur auf den reinen *Logic-Klassen; die übrigen Klassen brauchen das laufende Spiel.
+// Lokal: ./gradlew pitest, Bericht in build/reports/pitest. In CI wöchentlich (mutation.yml).
+pitest {
+	junit5PluginVersion = '1.2.3'
+	targetClasses = ['net.frank.explorertent.*Logic', 'net.frank.explorertent.*Logic$*']
+	targetTests = ['net.frank.explorertent.*']
+	threads = 4
+	outputFormats = ['HTML', 'XML']
+	timestampedReports = false
+	// Untergrenze aus WorldExplorer übernommen, nach erstem Lauf anpassen
+	mutationThreshold = 75
+}
+
+test {
+	useJUnitPlatform()
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+	// Error-Prone-Funde brechen den Build, damit Agenten sie sofort im Loop sehen
+	it.options.compilerArgs.add("-Werror")
+	it.options.errorprone {
+		// Minecraft vergleicht Registry-Singletons (Block, Item, Entity, BlockEntity) absichtlich per Identität
+		disable("ReferenceEquality")
+		// Mixin ruft @Inject-Methoden über Bytecode-Injektion auf
+		option("UnusedMethod:ExemptingMethodAnnotations", "org.spongepowered.asm.mixin.injection.Inject")
+	}
+}
+
+java {
+	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+	// if it is present.
+	// If you remove this line, sources will not be generated.
+	withSourcesJar()
+
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
+}
+
+jar {
+	def projectName = project.name
+	inputs.property "projectName", projectName
+
+	from("LICENSE") {
+		rename { "${it}_$projectName"}
+	}
+}
+
+// configure the maven publication
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			from components.java
+		}
+	}
+
+	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+	repositories {
+		// Add repositories to publish to here.
+		// Notice: This block does NOT have the same function as the block in the top level.
+		// The repositories here will be used for publishing your artifact, not for
+		// retrieving dependencies.
+	}
+}

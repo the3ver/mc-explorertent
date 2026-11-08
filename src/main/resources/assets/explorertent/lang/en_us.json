@@ -1,0 +1,15 @@
+{
+  "item.explorertent.explorer_tent": "Explorer's Tent",
+  "block.explorertent.tent_canvas": "Tent Canvas",
+  "block.explorertent.tent_pole": "Tent Pole",
+  "block.explorertent.tent_sleeping_bag": "Explorer's Sleeping Bag",
+  "block.explorertent.tent_furnace": "Tent Furnace",
+  "block.explorertent.tent_flap": "Tent Flap",
+  "block.explorertent.tent_chest": "Tent Chest",
+  "tooltip.explorertent.explorer_tent": "Mobile tent for expeditions. Sleep without resetting your home spawn point.",
+  "message.explorertent.tent_placed": "Explorer's Tent pitched!",
+  "message.explorertent.tent_packed": "Explorer's Tent packed up.",
+  "message.explorertent.tent_no_space": "Not enough clear space to pitch the tent (requires 3x4 blocks)!",
+  "message.explorertent.tent_uneven_ground": "The ground is uneven. The tent requires 3x4 solid ground blocks!",
+  "message.explorertent.tent_sleeping": "Good night, explorer! (Home spawn point remains untouched)"
+}

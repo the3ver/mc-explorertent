@@ -1,10 +1,10 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "canvas": "mc3ver:block/tent_canvas_roof",
+    "canvas": "explorertent:block/tent_canvas_roof",
     "pole": "minecraft:block/stripped_oak_log",
-    "particle": "mc3ver:block/tent_canvas_roof",
-    "pennant": "mc3ver:block/tent_pennant"
+    "particle": "explorertent:block/tent_canvas_roof",
+    "pennant": "explorertent:block/tent_pennant"
   },
   "elements": [
     {

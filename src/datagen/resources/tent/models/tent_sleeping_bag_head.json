@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "bed": "mc3ver:block/tent_sleeping_bag",
-    "particle": "mc3ver:block/tent_sleeping_bag"
+    "bed": "explorertent:block/tent_sleeping_bag",
+    "particle": "explorertent:block/tent_sleeping_bag"
   },
   "elements": [
     {

@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "explorertent:block/tent_pole",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "explorertent:block/tent_pole",
+      "y": 0
+    },
+    "facing=south": {
+      "model": "explorertent:block/tent_pole",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "explorertent:block/tent_pole",
+      "y": 270
+    }
+  }
+}

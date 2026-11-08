@@ -1,0 +1,15 @@
+{
+  "item.explorertent.explorer_tent": "Entdeckerzelt",
+  "block.explorertent.tent_canvas": "Zeltplane",
+  "block.explorertent.tent_pole": "Zeltpfosten",
+  "block.explorertent.tent_sleeping_bag": "Entdecker-Schlafsack",
+  "block.explorertent.tent_furnace": "Zeltofen",
+  "block.explorertent.tent_flap": "Eingangsplane",
+  "block.explorertent.tent_chest": "Zelttruhe",
+  "tooltip.explorertent.explorer_tent": "Mobiles Zelt für Reisen. Schlafen ohne den Heimat-Spawnpunkt zu verändern.",
+  "message.explorertent.tent_placed": "Entdeckerzelt aufgestellt!",
+  "message.explorertent.tent_packed": "Entdeckerzelt eingepackt.",
+  "message.explorertent.tent_no_space": "Nicht genügend ebener Platz zum Aufstellen des Zeltes (3x4 Blöcke benötigt)!",
+  "message.explorertent.tent_uneven_ground": "Der Boden ist uneben. Das Zelt benötigt 3x4 feste Blöcke als Untergrund!",
+  "message.explorertent.tent_sleeping": "Gute Nacht, Entdecker! (Heimat-Spawnpunkt bleibt erhalten)"
+}

@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "explorertent",
+	"version": "${version}",
+	"name": "Explorer Tent",
+	"description": "A portable explorer tent: place it, sleep without moving your home spawn, pack it up with its chest and furnace contents.",
+	"authors": [
+		"frank"
+	],
+	"contact": {
+		"sources": "https://github.com/the3ver/mc-explorertent"
+	},
+	"license": "MIT",
+	"icon": "assets/explorertent/textures/item/explorer_tent.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.frank.explorertent.ExplorerTentMod"
+		],
+		"client": [
+			"net.frank.explorertent.client.ExplorerTentClient"
+		],
+		"fabric-datagen": [
+			"net.frank.explorertent.datagen.ExplorerTentDataGenerator"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.20.0",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

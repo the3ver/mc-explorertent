@@ -1,0 +1,152 @@
+package net.frank.explorertent.tent;
+
+import java.util.function.Consumer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.DyedItemColor;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class ExplorerTentItem extends Item {
+
+    public ExplorerTentItem(Item.Properties properties) {
+        super(properties);
+    }
+
+    @Override
+    public void appendHoverText(
+            ItemStack stack,
+            TooltipContext context,
+            TooltipDisplay display,
+            Consumer<Component> tooltipAdder,
+            TooltipFlag flag) {
+        tooltipAdder.accept(
+                Component.translatable("tooltip.explorertent.explorer_tent").withStyle(ChatFormatting.GRAY));
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Level level = context.getLevel();
+        BlockPos clickedPos = context.getClickedPos();
+        Direction clickedFace = context.getClickedFace();
+        Player player = context.getPlayer();
+
+        BlockPos anchor = clickedFace == Direction.UP ? clickedPos.above() : clickedPos.relative(clickedFace);
+        Direction facing = context.getHorizontalDirection();
+        ExplorerTentLogic.Facing tentFacing = ExplorerTentLogic.Facing.fromDirectionName(facing.name());
+
+        ExplorerTentLogic.WorldView worldView = new ExplorerTentLogic.WorldView() {
+            @Override
+            public boolean isSolid(int x, int y, int z) {
+                BlockPos p = new BlockPos(x, y, z);
+                return level.getBlockState(p).isFaceSturdy(level, p, Direction.UP);
+            }
+
+            @Override
+            public boolean isReplaceable(int x, int y, int z) {
+                BlockPos p = new BlockPos(x, y, z);
+                return level.getBlockState(p).canBeReplaced();
+            }
+        };
+
+        ExplorerTentLogic.PlacementResult result =
+                ExplorerTentLogic.validatePlacement(anchor.getX(), anchor.getY(), anchor.getZ(), tentFacing, worldView);
+
+        if (result.status() == ExplorerTentLogic.PlacementStatus.UNEVEN_GROUND) {
+            if (player != null) {
+                player.sendOverlayMessage(Component.translatable("message.explorertent.tent_uneven_ground")
+                        .withStyle(ChatFormatting.RED));
+            }
+            return InteractionResult.FAIL;
+        }
+
+        if (result.status() == ExplorerTentLogic.PlacementStatus.OBSTRUCTED) {
+            if (player != null) {
+                player.sendOverlayMessage(Component.translatable("message.explorertent.tent_no_space")
+                        .withStyle(ChatFormatting.RED));
+            }
+            return InteractionResult.FAIL;
+        }
+
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
+        }
+
+        ItemStack heldStack = context.getItemInHand();
+        DyedItemColor dyedColor = heldStack.get(DataComponents.DYED_COLOR);
+        String colorName = dyedColor != null
+                ? ExplorerTentLogic.getColorNameFromRgb(dyedColor.rgb())
+                : ExplorerTentLogic.DEFAULT_COLOR_NAME;
+        DyeColor tentColor = DyeColor.byName(colorName, DyeColor.WHITE);
+
+        placeTent(level, anchor, tentFacing, facing, tentColor, heldStack, worldView);
+
+        // Sounds
+        level.playSound(null, anchor, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+        level.playSound(null, anchor, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+        if (player != null && !player.getAbilities().instabuild) {
+            context.getItemInHand().shrink(1);
+        }
+
+        if (player != null) {
+            player.sendSystemMessage(
+                    Component.translatable("message.explorertent.tent_placed").withStyle(ChatFormatting.GREEN));
+        }
+
+        return InteractionResult.SUCCESS;
+    }
+
+    private static void placeTent(
+            Level level,
+            BlockPos anchor,
+            ExplorerTentLogic.Facing tentFacing,
+            Direction facing,
+            DyeColor tentColor,
+            ItemStack tentStack,
+            ExplorerTentLogic.WorldView worldView) {
+        for (int relY = 0; relY < ExplorerTentLogic.HEIGHT; relY++) {
+            for (int relX = -1; relX <= 1; relX++) {
+                for (int relZ = 0; relZ < ExplorerTentLogic.LENGTH; relZ++) {
+                    ExplorerTentLogic.TentPart part = ExplorerTentLogic.getTentPart(relX, relY, relZ);
+                    ExplorerTentLogic.BlockCoord coord = ExplorerTentLogic.toWorldPos(
+                            anchor.getX(), anchor.getY(), anchor.getZ(), tentFacing, relX, relY, relZ);
+                    BlockPos p = new BlockPos(coord.x(), coord.y(), coord.z());
+
+                    if (part == ExplorerTentLogic.TentPart.AIR) {
+                        if (level.getBlockState(p).canBeReplaced()) {
+                            level.setBlock(p, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+                        }
+                        continue;
+                    }
+
+                    // Heringe stehen außerhalb des Zeltvolumens; der Boden dort ist vor dem Aufstellen schon bekannt
+                    boolean guyLine = ExplorerTentLogic.isGuyLineAnchored(
+                            anchor.getX(), anchor.getY(), anchor.getZ(), tentFacing, relX, relY, relZ, worldView);
+                    BlockState stateToPlace = ModTentBlocks.stateFor(part, facing, tentColor, guyLine);
+                    if (stateToPlace != null) {
+                        level.setBlock(p, stateToPlace, Block.UPDATE_ALL);
+                        if (level.getBlockEntity(p) instanceof TentChestBlockEntity chest) {
+                            chest.putAllItems(TentChestStorage.restore(tentStack));
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
