@@ -140,6 +140,16 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         };
     }
 
+    /** Zellen der Mittelreihe, über denen der First liegt. */
+    public static boolean isRidgeCell(CanvasPart part) {
+        return part == CanvasPart.ROOF_RIDGE || part == CanvasPart.ROOF_FRONT || part == CanvasPart.ROOF_BACK;
+    }
+
+    /** Um wie viele Blöcke Regen- und Schneesäulen über dieser Zelle früher enden als an der Heightmap. */
+    public static int rainFloorLift(CanvasPart part) {
+        return 0;
+    }
+
     private static Map<Direction, VoxelShape> byOuterSide(Function<Direction, VoxelShape> build) {
         Map<Direction, VoxelShape> shapes = new EnumMap<>(Direction.class);
         for (Direction dir : Direction.Plane.HORIZONTAL) shapes.put(dir, build.apply(dir));
