@@ -147,7 +147,9 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
 
     /** Um wie viele Blöcke Regen- und Schneesäulen über dieser Zelle früher enden als an der Heightmap. */
     public static int rainFloorLift(CanvasPart part) {
-        return 0;
+        if (!isRidgeCell(part)) return 0;
+        double aboveBlock = TentRoofLogic.RIDGE_HEIGHT - ExplorerTentLogic.HEIGHT * 16.0;
+        return (int) Math.ceil(Math.max(0.0, aboveBlock) / 16.0);
     }
 
     private static Map<Direction, VoxelShape> byOuterSide(Function<Direction, VoxelShape> build) {
