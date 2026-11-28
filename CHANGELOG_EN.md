@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.5] - 2026-11-28
+
+### Fixed
+
+- Rain drops no longer show through at the ridge and the roof seams either.
+
 ## [0.1.4] - 2026-11-28
 
 ### Fixed

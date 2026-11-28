@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.5] - 2026-11-28
+
+### Behoben
+
+- Auch am First und an den Nähten der Dachplane scheinen keine Regentropfen mehr ins Zelt.
+
 ## [0.1.4] - 2026-11-28
 
 ### Behoben
