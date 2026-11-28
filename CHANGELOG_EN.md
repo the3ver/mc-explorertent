@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.3] - 2026-11-28
+
+### Fixed
+
+- Since Minecraft 26.3 rain fell through the whole tent down to the floor. The tent canvas keeps rain and snow out again.
+
 ## [0.1.2] - 2026-11-27
 
 ### Fixed

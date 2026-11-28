@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.3] - 2026-11-28
+
+### Behoben
+
+- Seit Minecraft 26.3 regnete es durch das ganze Zelt bis auf den Boden. Die Zeltplane hält Regen und Schnee wieder ab.
+
 ## [0.1.2] - 2026-11-27
 
 ### Behoben
