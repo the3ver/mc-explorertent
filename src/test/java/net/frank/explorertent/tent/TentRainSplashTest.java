@@ -90,4 +90,37 @@ public class TentRainSplashTest {
         assertTrue(
                 TentCanvasBlock.usesRainShape(net.minecraft.world.phys.shapes.CollisionContext.positionContext(70.0)));
     }
+
+    @Test
+    void rainDropsKeepClearOfTheSteepRoofInEveryDirection() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        // Ein Tropfen ragt nicht nur nach unten, sondern auch seitlich ~3,2 Pixel über seinen Mittelpunkt. Am steilen
+        // Dach steigt die Plane bergauf auf dieser Breite um fast 4 Pixel: die Kappe muss über dem höchsten Dachpunkt
+        // im Umkreis liegen, nicht nur über dem Punkt direkt darunter.
+        java.util.List<String> leaks = new java.util.ArrayList<>();
+        for (TentCanvasBlock.CanvasPart part : TentCanvasBlock.CanvasPart.values()) {
+            if (!part.name().startsWith("ROOF_")) continue;
+            // Blick nach Norden: links = Westen. Linke Zellen beginnen bei x = 0, die Mitte bei 16, rechte bei 32.
+            int cellStart = part.name().contains("LEFT") ? 0 : part.name().contains("RIGHT") ? 32 : 16;
+            net.minecraft.world.phys.shapes.VoxelShape shape =
+                    TentCanvasBlock.getRainShape(part, net.minecraft.core.Direction.NORTH);
+            for (int i = 0; i < 16; i++) {
+                double x = cellStart + i + 0.5;
+                double highestRoof = 0;
+                for (double r = -SPLASH_LIFT * 16; r <= SPLASH_LIFT * 16; r += 0.25) {
+                    highestRoof = Math.max(highestRoof, TentRoofLogic.roofTopAt(Math.clamp(x + r, 0, 48)));
+                }
+                double top = 16 + shape.max(net.minecraft.core.Direction.Axis.Y, 0.5, (i + 0.5) / 16.0) * 16;
+                if (top < highestRoof + SPLASH_LIFT * 16 - 1e-9) {
+                    leaks.add(part + " Spalte " + i + ": Kappe " + top + " px, nötig "
+                            + (highestRoof + SPLASH_LIFT * 16));
+                }
+            }
+        }
+        assertTrue(
+                leaks.isEmpty(),
+                leaks.size() + " Spalten zu knapp, z. B. " + leaks.subList(0, Math.min(5, leaks.size())));
+    }
 }
