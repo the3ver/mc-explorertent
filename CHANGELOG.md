@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.4] - 2026-11-28
+
+### Behoben
+
+- Regentropfen scheinen nicht mehr durch die Dachplane ins Zelt.
+
 ## [0.1.3] - 2026-11-28
 
 ### Behoben

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.4] - 2026-11-28
+
+### Fixed
+
+- Rain drops no longer show through the roof canvas inside the tent.
+
 ## [0.1.3] - 2026-11-28
 
 ### Fixed
