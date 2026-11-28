@@ -34,6 +34,11 @@ public final class TentRoofLogic {
         return WALL_HEIGHT + fromOuterEdge * slope();
     }
 
+    /** Höchste Dachoberkante zwischen den Querpositionen x0 und x1. */
+    public static double highestRoofTopBetween(double x0, double x1) {
+        return roofTopAt(Math.clamp(WIDTH / 2, Math.max(0.0, x0), Math.min(WIDTH, x1)));
+    }
+
     /** Länge einer Dachfläche von der Traufe bis zum First. */
     public static double planeLength() {
         double run = WIDTH / 2 + EAVE;

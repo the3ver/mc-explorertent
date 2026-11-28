@@ -96,20 +96,30 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     protected static final VoxelShape SHAPE_WALL_SOUTH = Block.box(0.0, 0.0, 14.0, 16.0, 16.0, 16.0);
 
     // Regenspritzer landen auf der Kollisions-Oberkante (ohne Kollision: auf der Blockunterkante) und ragen
-    // ~3 Pixel um ihren Mittelpunkt, durch die nur 2 Pixel dicke Plane also nach innen. Für Abfragen ohne
-    // Entity (Partikel, Regen) bekommt jedes Dachteil deshalb eine Kappe 4 Pixel über der Oberkante.
-    private static final VoxelShape RAIN_CAP = Block.box(0.0, 16.0, 0.0, 16.0, 20.0, 16.0);
+    // ~3 Pixel um ihren Mittelpunkt, nach unten wie zur Seite. Durch die nur 2 Pixel dicke Plane schienen sie nach
+    // innen. Für Abfragen ohne Entity bekommt jedes Dachteil deshalb eine Kappe 4 Pixel über dem höchsten Dachpunkt
+    // im Umkreis von 4 Pixeln; am steilen Dach liegt der bergauf, nicht direkt unter dem Tropfen.
     private static final double RAIN_LIFT = 4.0;
 
-    // Mittelzellen: der First liegt bis zu einen halben Block über der Zelle, die Kappe folgt der Dachlinie
-    private static final Map<Direction, VoxelShape> RIDGE_RAIN_CAP = byOuterSide(outer -> {
-        VoxelShape cap = Shapes.empty();
-        for (int d = 0; d < 16; d++) {
-            double roof = Math.max(TentRoofLogic.roofTopAt(16 + d), TentRoofLogic.roofTopAt(17 + d)) - 16;
-            cap = Shapes.or(cap, slab(outer, d, d + 1, 16.0, Math.ceil(roof + RAIN_LIFT)));
-        }
-        return cap;
-    });
+    // Seitliche Dachzellen, gemessen von der Außenkante (Querposition 0..16)
+    private static final Map<Direction, VoxelShape> SIDE_RAIN_CAP = rainCap(0.0);
+    // Mittelzellen, gemessen von der linken Kante (Querposition 16..32); der First liegt bis zu einen halben Block
+    // über der Zelle
+    private static final Map<Direction, VoxelShape> RIDGE_RAIN_CAP = rainCap(16.0);
+
+    private static Map<Direction, VoxelShape> rainCap(double cellStart) {
+        return byOuterSide(outer -> {
+            VoxelShape cap = Shapes.empty();
+            for (int d = 0; d < 16; d++) {
+                double roof =
+                        TentRoofLogic.highestRoofTopBetween(cellStart + d - RAIN_LIFT, cellStart + d + 1 + RAIN_LIFT)
+                                - 16;
+                double top = Math.max(16.0 + RAIN_LIFT, Math.ceil(roof + RAIN_LIFT));
+                cap = Shapes.or(cap, slab(outer, d, d + 1, 16.0, top));
+            }
+            return cap;
+        });
+    }
 
     // Seitliche Dachzellen: alles über der Dachlinie ist fest, damit man außen auf dem Dach steht und nicht hineinläuft
     private static final Map<Direction, VoxelShape> ROOF_SLOPE = byOuterSide(outer -> {
@@ -137,7 +147,11 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         return switch (part) {
             case ROOF_RIDGE, ROOF_FRONT, ROOF_BACK ->
                 Shapes.or(shape, RIDGE_RAIN_CAP.get(facing.getCounterClockWise()));
-            default -> part.name().startsWith("ROOF_") ? Shapes.or(shape, RAIN_CAP) : shape;
+            default -> {
+                if (!part.name().startsWith("ROOF_")) yield shape;
+                Direction outer = part.name().contains("LEFT") ? facing.getCounterClockWise() : facing.getClockWise();
+                yield Shapes.or(shape, SIDE_RAIN_CAP.get(outer));
+            }
         };
     }
 
