@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2] - 2026-11-27
+
+### Fixed
+
+- Rain and snow no longer fall into the roof peak under the ridge when standing inside the tent.
+
 ## [0.1.1] - 2026-11-08
 
 ### Fixed

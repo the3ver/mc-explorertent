@@ -24,6 +24,12 @@
 			"net.frank.explorertent.datagen.ExplorerTentDataGenerator"
 		]
 	},
+	"mixins": [
+		{
+			"config": "explorertent.client.mixins.json",
+			"environment": "client"
+		}
+	],
 	"depends": {
 		"fabricloader": ">=0.20.0",
 		"minecraft": "~26.3",

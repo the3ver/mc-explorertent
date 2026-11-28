@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2] - 2026-11-27
+
+### Behoben
+
+- Im Zelt fällt bei Regen und Schnee kein Niederschlag mehr in die Dachspitze unter dem First.
+
 ## [0.1.1] - 2026-11-08
 
 ### Behoben

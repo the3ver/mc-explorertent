@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "net.frank.explorertent.client.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"WeatherEffectRendererMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
