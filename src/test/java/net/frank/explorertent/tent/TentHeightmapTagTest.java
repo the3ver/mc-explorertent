@@ -19,14 +19,12 @@ public class TentHeightmapTagTest {
     @ParameterizedTest
     @ValueSource(strings = {"blocks_motion_in_heightmap", "blocks_motion_in_heightmap_no_leaves"})
     void tentCanvasStopsRainInTheHeightmap(String tag) throws Exception {
-        Path file = Paths.get("")
-                .toAbsolutePath()
-                .resolve("src/main/resources/data/minecraft/tags/block/" + tag + ".json");
+        Path file =
+                Paths.get("").toAbsolutePath().resolve("src/main/resources/data/minecraft/tags/block/" + tag + ".json");
         assertTrue(Files.exists(file), "Tag-Datei fehlt: " + file);
         List<String> values = new ArrayList<>();
-        for (JsonElement value : JsonParser.parseString(Files.readString(file))
-                .getAsJsonObject()
-                .getAsJsonArray("values")) {
+        for (JsonElement value :
+                JsonParser.parseString(Files.readString(file)).getAsJsonObject().getAsJsonArray("values")) {
             values.add(value.getAsString());
         }
         assertTrue(values.contains("explorertent:tent_canvas"), tag + " enthält die Zeltplane nicht: " + values);
