@@ -256,10 +256,15 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     @Override
     protected VoxelShape getCollisionShape(
             BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        if (context == CollisionContext.empty()) {
+        if (usesRainShape(context)) {
             return getRainShape(state.getValue(PART), state.getValue(FACING));
         }
         return getWallShape(state.getValue(PART), state.getValue(FACING));
+    }
+
+    /** Ob eine Kollisionsabfrage die Regenkappe sieht statt der echten Plane. */
+    static boolean usesRainShape(CollisionContext context) {
+        return context == CollisionContext.empty();
     }
 
     public static boolean hasMenuProvider(CanvasPart part) {
