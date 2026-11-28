@@ -87,7 +87,7 @@ public class TentRainSplashTest {
         // Seit 26.3 fragen Partikel mit CollisionContext.positionContext(y) ab statt mit empty(). Ohne Kappe fallen
         // die Tropfen nach dem Spawnen auf die dünne Plane und scheinen nach innen durch.
         assertTrue(TentCanvasBlock.usesRainShape(net.minecraft.world.phys.shapes.CollisionContext.empty()));
-        assertTrue(TentCanvasBlock.usesRainShape(
-                net.minecraft.world.phys.shapes.CollisionContext.positionContext(70.0)));
+        assertTrue(
+                TentCanvasBlock.usesRainShape(net.minecraft.world.phys.shapes.CollisionContext.positionContext(70.0)));
     }
 }

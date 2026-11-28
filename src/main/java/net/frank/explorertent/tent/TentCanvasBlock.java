@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -262,9 +263,12 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         return getWallShape(state.getValue(PART), state.getValue(FACING));
     }
 
-    /** Ob eine Kollisionsabfrage die Regenkappe sieht statt der echten Plane. */
+    /**
+     * Ob eine Kollisionsabfrage die Regenkappe sieht statt der echten Plane. Nur Entities stoßen an die Plane; Abfragen
+     * ohne Entity (Spritzer-Spawn mit empty(), fallende Partikel mit positionContext(y)) landen auf der Kappe.
+     */
     static boolean usesRainShape(CollisionContext context) {
-        return context == CollisionContext.empty();
+        return !(context instanceof EntityCollisionContext entityContext && entityContext.getEntity() != null);
     }
 
     public static boolean hasMenuProvider(CanvasPart part) {
