@@ -1,5 +1,6 @@
 package net.frank.explorertent;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gson.JsonObject;
@@ -150,5 +151,14 @@ class ResourceConsistencyTest {
         try (Stream<Path> files = Files.walk(dir)) {
             return files.filter(f -> f.toString().endsWith(".json")).toList();
         }
+    }
+
+    @Test
+    void refusesWorldExplorerVersionsWithTheirOwnTent() throws Exception {
+        // WorldExplorer bis 0.13.x registriert das Zelt selbst unter mc3ver:*, dieselben IDs, auf die TentLegacyIds
+        // Aliase setzt. Erst 0.14.0 soll das Zelt per Jar-in-Jar von diesem Mod beziehen.
+        JsonObject mod = JsonParser.parseString(Files.readString(RESOURCES.resolve("fabric.mod.json")))
+                .getAsJsonObject();
+        assertEquals("<0.14.0", mod.getAsJsonObject("breaks").get("mc3ver").getAsString());
     }
 }

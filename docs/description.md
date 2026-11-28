@@ -22,7 +22,7 @@ W = wool (sets the color), S = stick, B = any bed
 
 ## Coming from WorldExplorer
 
-The tent used to be part of [WorldExplorer](https://modrinth.com/mod/worldexplorermod). WorldExplorer 0.13.0 and newer ships this mod, so you don't need to install it separately. Tents from older worlds keep loading, including their chest contents.
+The tent used to be part of [WorldExplorer](https://modrinth.com/mod/worldexplorermod). WorldExplorer 0.14.0 and newer will ship this mod, so you won't need to install it separately; up to 0.13.x WorldExplorer still contains its own tent and can't run next to this mod. Tents from older worlds keep loading, including their chest contents.
 
 ## Requirements
 

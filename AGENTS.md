@@ -1,6 +1,6 @@
 # Explorer Tent (mc-explorertent) – Agent Guidelines
 
-Eigenständiger Fabric-Mod mit dem Entdeckerzelt für Minecraft 26.3 und Java 25. Herausgelöst aus WorldExplorer (`mc-3ver`); WorldExplorer bündelt diesen Mod ab 0.13.0 per Jar-in-Jar.
+Eigenständiger Fabric-Mod mit dem Entdeckerzelt für Minecraft 26.3 und Java 25. Herausgelöst aus WorldExplorer (`mc-3ver`); WorldExplorer soll diesen Mod ab 0.14.0 per Jar-in-Jar bündeln (Phase 2, offen); bis 0.13.x enthält WorldExplorer eine eigene Zelt-Kopie unter `mc3ver:*`, deshalb `breaks mc3ver <0.14.0`.
 
 ## Tech Stack
 - **Spiel:** Minecraft 26.3 (Java Edition)
