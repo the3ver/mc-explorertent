@@ -37,6 +37,6 @@
 		"fabric-api": "*"
 	},
 	"breaks": {
-		"mc3ver": "<0.13.0"
+		"mc3ver": "<0.14.0"
 	}
 }

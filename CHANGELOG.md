@@ -2,6 +2,10 @@
 
 ## [0.1.5] - 2026-11-28
 
+### Geändert
+
+- Explorer Tent startet nicht mehr zusammen mit WorldExplorer bis 0.13.x, weil diese Versionen das Zelt noch selbst enthalten.
+
 ### Behoben
 
 - Auch am First und an den Nähten der Dachplane scheinen keine Regentropfen mehr ins Zelt.

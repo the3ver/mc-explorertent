@@ -2,6 +2,10 @@
 
 ## [0.1.5] - 2026-11-28
 
+### Changed
+
+- Explorer Tent refuses to start next to WorldExplorer up to 0.13.x, because those versions still ship their own tent.
+
 ### Fixed
 
 - Rain drops no longer show through at the ridge and the roof seams either.
